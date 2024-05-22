@@ -1,52 +1,78 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+<!DOCTYPE html>
+<html lang="en">
 
-        <!-- Name -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ $title }} - {{ config('app.name') }}</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="shortcut icon" href="{{ Storage::url('front/favicon.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+</head>
+
+<body class="bg-gray-100">
+    <section class="flex flex-col items-center min-h-screen justify-center">
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
-
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
+            <a href="">
+                <img src="{{ Storage::url('front/logo.png') }}" alt="Logo" class="w-2/6 md:w-3/6 mx-auto">
             </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
         </div>
-    </form>
-</x-guest-layout>
+        <div class="elevation-10 w-3/6 bg-gray-200">
+            <form action="{{ route('registerPost') }}" method="post">
+                @csrf
+                <div class="p-4 ">
+                    <h2 class="text-center text-2xl">Register</h2>
+                    <div class="my-3">
+                        <label for="name" class="block text-xl font-semibold"> Full name </label>
+                        <input type="text" name="name" placeholder="Full name " class="form-input w-full"
+                            value="{{ old('name') }}">
+                        @error('name')
+                            <span class="text-red-500"><i class="fas fa-exclamation-circle"></i> {{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="my-3">
+                        <label for="email" class="block text-xl font-semibold"> Email </label>
+                        <input type="email" name="email" placeholder="Email " class="form-input w-full"
+                            value="{{ old('email') }}">
+                        @error('email')
+                            <span class="text-red-500"><i class="fas fa-exclamation-circle"></i> {{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="my-3">
+                        <label for="password" class="block text-xl font-semibold"> Password</label>
+                        <input type="password" name="password" placeholder="Password" class="form-input w-full"
+                            value="{{ old('password') }}">
+                        @error('password')
+                            <span class="text-red-500"><i class="fas fa-exclamation-circle"></i> {{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="my-3">
+                        <label for="password_confirmation" class="block text-xl font-semibold"> Confirm Password </label>
+                        <input type="password" name="password_confirmation" placeholder="Confirm Password " class="form-input w-full"
+                            value="{{ old('password_confirmation') }}">
+                        @error('password')
+                            <span class="text-red-500"><i class="fas fa-exclamation-circle"></i> {{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class=" flex justify-between my-3">
+                        <div>
+                            <button type="submit"
+                                class="bg-blue-600 hover:bg-blue-700 text-blue-200 hover:text-blue-200 rounded px-6 py-2">
+                                <i class="fa-solid fa-right-to-bracket"></i> Register</button>
+    
+                        </div>
+                        <div>
+                            <p> <a href="{{ route('login') }}" class="text-blue-600 capitalize">have account?
+                                    Login</a></p>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</body>
+
+</html>

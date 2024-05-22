@@ -1,47 +1,61 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<!DOCTYPE html>
+<html lang="en">
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ $title }} - {{ config('app.name') }}</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="shortcut icon" href="{{ Storage::url('front/favicon.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+</head>
+</head>
 
-        <!-- Email Address -->
+<body class="bg-gray-100">
+    <section class="flex flex-col items-center min-h-screen justify-center">
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <a href="">
+                <img src="{{ Storage::url('front/logo.png') }}" alt="Logo" class="w-2/6 md:w-3/6 mx-auto">
+            </a>
         </div>
+        <div class="elevation-10 w-3/6 bg-gray-200">
+            <form action="{{ route('loginPost') }}" method="post">
+                @csrf
+                <div class="p-4 ">
+                    <h2 class="text-center text-2xl">Login</h2>
+                    <div class="my-3">
+                        <label for="email" class="block text-xl font-semibold"> Email  </label>
+                        <input type="email" name="email" placeholder="Email " class="form-input w-full"
+                            value="{{ old('email') }}">
+                        @error('email')
+                            <span class="text-red-500"><i class="fas fa-exclamation-circle"></i> {{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div>
+                        <label for="password" class="block text-xl font-semibold"> Password</label>
+                        <input type="password" name="password" placeholder="Password" class="form-input w-full"
+                            value="{{ old('password') }}">
+                        @error('password')
+                            <span class="text-red-500"><i class="fas fa-exclamation-circle"></i> {{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class=" flex justify-between my-3">
+                        <div>
+                            <button type="submit"
+                                class="bg-blue-600 hover:bg-blue-700 text-blue-200 hover:text-blue-200 rounded px-6 py-2">
+                                <i class="fa-solid fa-right-to-bracket"></i> Login</button>
+                            <p> <a href="#" class="text-blue-600">Forgot Password?</a></p>
+                        </div>
+                        <div>
+                            <p> <a href="{{ route('register') }}" class="text-blue-600">Don't have account? Register</a></p>
+                        </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                    </div>
+                </div>
+            </form>
         </div>
+    </section>
+</body>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+</html>
